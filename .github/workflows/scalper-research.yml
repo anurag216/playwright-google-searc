@@ -12,7 +12,7 @@ on:
 jobs:
   research:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 25
     permissions:
       contents: read
     steps:
@@ -20,12 +20,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Run walk-forward research
-        run: python scalper_research/research_walkforward.py
+      - name: Run staged walk-forward research
+        run: python scalper_research/research_walkforward_v2.py
       - name: Upload research results
         uses: actions/upload-artifact@v4
         with:
-          name: scalper-walkforward-results
+          name: scalper-walkforward-v2-results
           path: |
-            research_output/walkforward_results.json
-            research_output/walkforward_summary.md
+            research_output_v2/results.json
+            research_output_v2/summary.md
