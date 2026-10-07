@@ -1,18 +1,18 @@
-name: Validate Stronger Scalper Survivors
+name: Regime Adaptive Scalper Search
 
 on:
   push:
     branches:
       - scalper-research-lab
     paths:
-      - "candidate_validation/validate_v2_survivors_2025.py"
+      - "regime_research/**"
       - ".github/workflows/scalper-research.yml"
   workflow_dispatch:
 
 jobs:
-  validate:
+  research:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     permissions:
       contents: read
     steps:
@@ -20,12 +20,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate stronger frozen survivors on 2025
-        run: python candidate_validation/validate_v2_survivors_2025.py
-      - name: Upload validation
+      - name: Run regime-adaptive search
+        run: python regime_research/regime_gate_search.py
+      - name: Upload regime results
         uses: actions/upload-artifact@v4
         with:
-          name: scalper-v2-survivors-2025
+          name: scalper-regime-results
           path: |
-            v2_survivor_2025/validation.json
-            v2_survivor_2025/summary.md
+            regime_output/regime_results.json
+            regime_output/summary.md
