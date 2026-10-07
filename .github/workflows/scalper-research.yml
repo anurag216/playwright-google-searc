@@ -1,0 +1,31 @@
+name: Scalper Research Walkforward
+
+on:
+  push:
+    branches:
+      - scalper-research-lab
+    paths:
+      - "scalper_research/**"
+      - ".github/workflows/scalper-research.yml"
+  workflow_dispatch:
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run walk-forward research
+        run: python scalper_research/research_walkforward.py
+      - name: Upload research results
+        uses: actions/upload-artifact@v4
+        with:
+          name: scalper-walkforward-results
+          path: |
+            research_output/walkforward_results.json
+            research_output/walkforward_summary.md
