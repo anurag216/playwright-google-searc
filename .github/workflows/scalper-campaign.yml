@@ -1,0 +1,31 @@
+name: Frozen Signal Campaign Search
+
+on:
+  push:
+    branches:
+      - scalper-research-lab
+    paths:
+      - "session_structure/campaign_search.py"
+      - ".github/workflows/scalper-campaign.yml"
+  workflow_dispatch:
+
+jobs:
+  campaign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test campaign management
+        run: python session_structure/campaign_search.py
+      - name: Upload campaign results
+        uses: actions/upload-artifact@v4
+        with:
+          name: scalper-campaign-results
+          path: |
+            campaign_output/campaign_results.json
+            campaign_output/summary.md
