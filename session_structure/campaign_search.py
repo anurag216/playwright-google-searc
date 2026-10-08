@@ -52,7 +52,7 @@ def events(data):
   if not br:continue
   wi,bi=br
   for j in W[wi+1:wi+11]:
-   if j<300 or j+120>=len(b):break
+   if j<1500 or j+120>=len(b):break
    if b[j]['h']>=rl-.4*at and b[j]['c']<rl and b[j]['c']<b[j]['o']:
     r240=(b[j]['c']-b[j-240]['c'])/at
     depth=(rl-b[bi]['c'])/at
@@ -68,7 +68,11 @@ def stat(P):
  return {'n':len(P),'sum':sum(P),'mean':sum(P)/len(P),'pf':gp/gl if gl else 99,'win':sum(x>0 for x in P)/len(P),'mdd':dd}
 
 def one(b,e,camp,cost):
- i=e['i']; atr=e['atr']; base=b[i]['o']; legs=[(base,1.0)]; used=set(); end=min(len(b)-1,i+camp.hold)
+ i=e['i']; atr=e['atr']; base=b[i]['o']; used=set(); end=min(len(b)-1,i+camp.hold)
+ max_exposure=1.0+len(camp.add_levels)*camp.add_size
+ initial_size=1.0/max_exposure
+ add_abs=camp.add_size/max_exposure
+ legs=[(base,initial_size)]
  stop=base+camp.stop_atr*atr if camp.stop_atr>0 else None
  exit_px=None
  # Adds only after a CLOSE proves favorable progress; execute at next bar open.
@@ -82,7 +86,7 @@ def one(b,e,camp,cost):
     px=b[j+1]['o']
     # Add only if next-open execution is still favorable vs initial entry.
     if px<base:
-     legs.append((px,camp.add_size));used.add(level)
+     legs.append((px,add_abs));used.add(level)
   # no same-bar add then stop optimism: stop is checked before add above
  if exit_px is None:exit_px=b[end]['o']
  pnl=sum(sz*(ep-exit_px-cost) for ep,sz in legs)
@@ -147,7 +151,7 @@ def main():
   refs.append(item)
  out={'counts':{'campaigns':len(Q),'dev_viable':len(dev),'validation_viable':len(V),'frozen':len(frozen),'survivors':len(surv)},'references':refs,'survivors':surv,'frozen':R}
  OUT.joinpath('campaign_results.json').write_text(json.dumps(out,indent=2))
- OUT.joinpath('summary.md').write_text('# Frozen signal campaign-management search\n\n'+json.dumps(out['counts'],indent=2)+'\n\n## References\n'+json.dumps(refs,indent=2)+'\n\n## Survivors\n'+json.dumps(surv[:10],indent=2))
+ OUT.joinpath('summary.md').write_text('# Frozen signal campaign-management search — equal max exposure\n\n'+json.dumps(out['counts'],indent=2)+'\n\n## References\n'+json.dumps(refs,indent=2)+'\n\n## Survivors\n'+json.dumps(surv[:10],indent=2))
  print(json.dumps({'counts':out['counts'],'references':refs,'top':surv[:5]},indent=2),flush=True)
 
 if __name__=='__main__':main()
