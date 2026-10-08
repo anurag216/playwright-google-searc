@@ -1,0 +1,31 @@
+name: Frozen London-NY Retest Robustness
+
+on:
+  push:
+    branches:
+      - scalper-research-lab
+    paths:
+      - "session_structure/robustness_check.py"
+      - ".github/workflows/scalper-robustness.yml"
+  workflow_dispatch:
+
+jobs:
+  robustness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run frozen robustness check
+        run: python session_structure/robustness_check.py
+      - name: Upload robustness results
+        uses: actions/upload-artifact@v4
+        with:
+          name: scalper-robustness-results
+          path: |
+            session_robustness_output/robustness_results.json
+            session_robustness_output/summary.md
