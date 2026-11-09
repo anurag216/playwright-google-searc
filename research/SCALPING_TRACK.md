@@ -1,5 +1,7 @@
 # High-frequency scalping track — separate from Master Portfolio
 
+**Broker execution baseline:** read [`BROKER_EXECUTION_PROFILE.md`](BROKER_EXECUTION_PROFILE.md) before any executable XAUUSD simulation. No Raw Spread account or commission schedule has been verified.
+
 ## Original user intent
 The user referenced a **video of a bot harvesting small moves in either price direction**: repeated small buys as price moves down, profit closes on retracements; similarly sells after upward moves and closes on downward retracements, with many intraday trades. **The original video was NOT recovered**, so this description is user intent, not verified order-level mechanics. Do NOT assume the video uses a grid, hedging, martingale, or guaranteed-profit strategy.
 

@@ -3,6 +3,7 @@
 **Status:** contextual handover only. No MT5 backtest, source-code compilation, scientific validation, or EA modification was performed while creating this handover.
 
 ## What is here
+- `BROKER_EXECUTION_PROFILE.md`: verified XM MT5 account, exact GOLD.i# contract and price/spread mechanics, micro-scalping settings and outstanding cost questions.
 - `AGENTS.md`: controlling research rules. **Read first**.
 - `RESEARCH_STATE.md`: latest known baseline, versions, and immediate bounded next task.
 - `MASTER_PORTFOLIO.md`: ORB, Prior Range, Donchian, Overnight architecture and multi-year numbers.
